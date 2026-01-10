@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import { Edit as EditIcon } from "lucide-react";
 
 function Edit() {
   const [loading, setLoading] = useState(false);
@@ -35,6 +34,7 @@ function Edit() {
         reset({
           title: response.data.data.Title,
           post: response.data.data.Post,
+          postdetail:response.data.data.PostDetail,
         });
       } catch (error) {
         console.error(error);
@@ -100,7 +100,7 @@ function Edit() {
           {errors.title && <div>{errors.title.message}</div>}
         </div>
 
-        {/* Post */}
+        {/* Post Description*/}
         <div className="mb-6">
           <label className="block text-gray-700 mb-2">Description</label>
           <input

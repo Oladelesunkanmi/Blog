@@ -186,31 +186,31 @@ func BlogDelete(c *fiber.Ctx) error {
 	return c.JSON(context)
 }
 
-func Login(c *fiber.Ctx) error {
-	type LoginRequest struct {
-		Email    string `json:"email"`
-		Password string `json:"password"`
-	}
+// func Login(c *fiber.Ctx) error {
+// 	type LoginRequest struct {
+// 		Email    string `json:"email"`
+// 		Password string `json:"password"`
+// 	}
 
-	req := new(LoginRequest)
-	if err := c.BodyParser(req); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"message": "Invalid request",
-		})
-	}
+// 	req := new(LoginRequest)
+// 	if err := c.BodyParser(req); err != nil {
+// 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+// 			"message": "Invalid request",
+// 		})
+// 	}
 
-	// Demo check
-	if req.Email == "user@example.com" && req.Password == "password123" {
-		return c.JSON(fiber.Map{
-			"token": "FAKE_JWT_TOKEN",
-			"user": fiber.Map{
-				"email": req.Email,
-				"name":  "John Doe",
-			},
-		})
-	}
+// 	// Demo check
+// 	if req.Email == "user@example.com" && req.Password == "password123" {
+// 		return c.JSON(fiber.Map{
+// 			"token": "FAKE_JWT_TOKEN",
+// 			"user": fiber.Map{
+// 				"email": req.Email,
+// 				"name":  "John Doe",
+// 			},
+// 		})
+// 	}
 
-	return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-		"message": "Invalid credentials",
-	})
-}
+// 	return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+// 		"message": "Invalid credentials",
+// 	})
+// }

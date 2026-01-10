@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Menu, X } from "lucide-react"; // optional icons
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +13,9 @@ function Navbar() {
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
           <div className="flex-shrink-0">
+            <Link to="/">
             <h1 className="text-2xl font-bold text-blue-600">MyLogo</h1>
+          </Link>
           </div>
 
           {/* Desktop Menu */}

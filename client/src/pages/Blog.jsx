@@ -29,23 +29,46 @@ function Blog() {
     fetchData();
   }, [params.id]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading) return <div className="min-h-screen flex items-center justify-center"><div className="text-lg text-gray-600">Loading...</div></div>;
+  if (error) return <div className="min-h-screen flex items-center justify-center"><div className="text-lg text-red-600">Error: {error}</div></div>;
 
   return (
-    <div>
-      <div className="flex justify-center bg-gray-700 py-5">
-        <h1 className="text-5xl text-white">{apiData.Title}</h1>
+
+
+    <section className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+           <div className="grid gap-8">
+
+          <article
+            key={apiData.id}
+            className="bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+          >
+           
+            <div className="p-8 md:p-12">
+              <h4 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight hover:text-purple-600 transition-colors duration-200">
+                {apiData.Title}
+              </h4>
+              <div className="mb-8 rounded-xl overflow-hidden">
+                <img className="w-[250px] h-auto object-cover"
+                  src={`${import.meta.env.VITE_API_ROOT}/${apiData?.Image.replace(/^\.?\//, "")}`}
+                  alt={apiData?.Title}
+                  onError={(e) => { e.currentTarget.src = "/placeholder.jpg"; }}
+                />
+              </div>
+
+              <p className="text-lg md:text-xl text-gray-700 leading-relaxed whitespace-pre-wrap">{apiData.PostDetail}</p>
+            </div>
+          </article>
+
+        </div>
+
+        {apiData.length === 0 && (
+          <div className="text-center py-24">
+            <p className="text-gray-500 text-xl">No articles found in this category.</p>
+          </div>
+        )}
       </div>
-      <div>
-        <img width="250" height="250"
-          src={`${import.meta.env.VITE_API_ROOT}/${apiData?.Image.replace(/^\.?\//, "")}`}
-          alt={apiData?.Title}
-          onError={(e) => { e.currentTarget.src = "/placeholder.jpg"; }}
-        />
-      </div>
-      <p>{apiData.PostDetail}</p>
-    </div>
+    </section>
   );
 }
 

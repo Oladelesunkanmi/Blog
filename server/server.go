@@ -16,7 +16,7 @@ func init() {
 	if err := godotenv.Load(".env"); err != nil {
 		log.Fatal("Error in loading .env file.")
 	}
-	database.ConnnectDB()
+	database.ConnectDB()
 }
 
 func main() {

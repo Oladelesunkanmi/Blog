@@ -12,7 +12,7 @@ import (
 
 var DBConn *gorm.DB
 
-func ConnnectDB() {
+func ConnectDB() {
 	user := os.Getenv("db_user")
 	password := os.Getenv("db_password")
 	dbname := os.Getenv("db_name")
@@ -26,7 +26,9 @@ func ConnnectDB() {
 
 	log.Println("Connection Successful")
 
-	db.AutoMigrate(new(model.Blog))
+	if err := db.AutoMigrate(&model.Blog{}, &model.User{}); err != nil {
+		log.Fatal("Migration failed:", err)
+	}
 
 	DBConn = db
 }

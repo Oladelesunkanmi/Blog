@@ -6,6 +6,7 @@ import Add from "./pages/Add";
 import Edit from "./pages/Edit";
 import Delete from "./pages/Delete";
 import Login from "./pages/Login";
+import Register from "./auth/Register";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="/add" element={<Add />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Register />} />
         <Route path="/delete/:id" element={<Delete />} />
         <Route path="edit/:id" element={<Edit/>} />
 
