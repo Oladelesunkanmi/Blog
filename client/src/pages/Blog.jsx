@@ -8,6 +8,7 @@ function Blog() {
   const [error, setError] = useState(null);
   const params = useParams();
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -16,7 +17,7 @@ function Blog() {
         const response = await axios.get(apiUrl);
         console.log("API Response:", response.data);
 
-        setApiData(response.data.data); 
+        setApiData(response.data.data);
       } catch (error) {
         console.error(error);
         setError(error.message);
@@ -33,10 +34,17 @@ function Blog() {
 
   return (
     <div>
-        <div className="flex justify-center bg-gray-700 py-5">
-      <h1 className="text-5xl text-white">{apiData.Title}</h1>
+      <div className="flex justify-center bg-gray-700 py-5">
+        <h1 className="text-5xl text-white">{apiData.Title}</h1>
       </div>
-      <p>{apiData.Post}</p>
+      <div>
+        <img width="250" height="250"
+          src={`${import.meta.env.VITE_API_ROOT}/${apiData?.Image.replace(/^\.?\//, "")}`}
+          alt={apiData?.Title}
+          onError={(e) => { e.currentTarget.src = "/placeholder.jpg"; }}
+        />
+      </div>
+      <p>{apiData.PostDetail}</p>
     </div>
   );
 }

@@ -15,9 +15,18 @@ function Add() {
 
   const saveForm = async (data) => {
     setLoading(true);
+    console.log(data);
+
+    data.file = data.image[0]
+    data.image = null;
+    
     try {
       const apiUrl = import.meta.env.VITE_API_ROOT;
-      const response = await axios.post(apiUrl, data);
+      const response = await axios.post(apiUrl, data, {
+        headers:{
+          "Content-Type": "multipart/form-data"
+        }
+      });
     
     if (response.status === 200 || response.status === 201) {
       navigate("/");
@@ -43,6 +52,7 @@ function Add() {
         <h2 className="text-xl font-semibold text-center mb-6">
           Add Post
         </h2>
+      
 
         {/* Title */}
         <div className="mb-4">
@@ -63,7 +73,7 @@ function Add() {
 
         {/* Post */}
         <div className="mb-6">
-          <label className="block text-gray-700 mb-2">Post</label>
+          <label className="block text-gray-700 mb-2">Description</label>
           <input
             placeholder="Enter blog post"
             className="w-full px-4 py-2 border rounded-md"
@@ -72,6 +82,28 @@ function Add() {
             })}
           />
           {errors.post && <div>{errors.post.message}</div>}
+        </div>
+        {/* Post Detail */}
+        <div className="mb-6">
+          <label className="block text-gray-700 mb-2">Post</label>
+          <input
+            placeholder="Enter blog post"
+            className="w-full px-4 py-2 border rounded-md"
+            {...register("postdetail", {
+              required: "Post content is required",
+            })}
+          />
+          {errors.post && <div>{errors.post.message}</div>}
+        </div>
+          {/* Image */}
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2">Image</label>
+          <input
+            type="file"
+            className=" px-4 py-2 border rounded-md"
+            {...register("image")}
+          />
+          {errors.title && <div>{errors.image.message}</div>}
         </div>
 
         <button

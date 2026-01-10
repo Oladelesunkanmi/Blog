@@ -4,6 +4,7 @@ import (
 	"bold/database"
 	"bold/model"
 	"log"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -63,6 +64,24 @@ func BlogCreate(c *fiber.Ctx) error {
 		context["msg"] = "Something went wrong"
 		c.Status(400)
 		return c.JSON(context)
+	}
+
+	//Fie upload
+
+	file, err := c.FormFile("file")
+	if err != nil {
+		log.Println("Error in file upload")
+
+	}
+	if file.Size > 0 {
+		filename := "./static/uploads/" + file.Filename
+
+		if err := c.SaveFile(file, filename); err != nil {
+			log.Println("Error in file uploding", err)
+		}
+
+		//set image path to the struct
+		record.Image = filename
 	}
 
 	result := database.DBConn.Create(record)
@@ -145,6 +164,15 @@ func BlogDelete(c *fiber.Ctx) error {
 		return c.JSON(context)
 	}
 
+	//remove the image
+	filename := record.Image
+
+	err := os.Remove(filename)
+
+	if err != nil {
+		log.Println("Error in deleting the file", err)
+	}
+
 	result := database.DBConn.Delete(&record)
 	if result.Error != nil {
 		context["statusText"] = "ERROR"
@@ -156,4 +184,33 @@ func BlogDelete(c *fiber.Ctx) error {
 	context["msg"] = "Record deleted successfully"
 	c.Status(200)
 	return c.JSON(context)
+}
+
+func Login(c *fiber.Ctx) error {
+	type LoginRequest struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+
+	req := new(LoginRequest)
+	if err := c.BodyParser(req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid request",
+		})
+	}
+
+	// Demo check
+	if req.Email == "user@example.com" && req.Password == "password123" {
+		return c.JSON(fiber.Map{
+			"token": "FAKE_JWT_TOKEN",
+			"user": fiber.Map{
+				"email": req.Email,
+				"name":  "John Doe",
+			},
+		})
+	}
+
+	return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+		"message": "Invalid credentials",
+	})
 }

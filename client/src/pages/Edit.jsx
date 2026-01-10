@@ -102,11 +102,24 @@ function Edit() {
 
         {/* Post */}
         <div className="mb-6">
-          <label className="block text-gray-700 mb-2">Post</label>
+          <label className="block text-gray-700 mb-2">Description</label>
           <input
             placeholder="Enter blog post"
             className="w-full px-4 py-2 border rounded-md"
             {...register("post", {
+              required: "Post content is required",
+            })}
+          />
+          {errors.post && <div>{errors.post.message}</div>}
+        </div>
+
+        {/* Post */}
+        <div className="mb-6">
+          <label className="block text-gray-700 mb-2">Post</label>
+          <input
+            placeholder="Enter blog post"
+            className="w-full px-4 py-2 border rounded-md"
+            {...register("postdetail", {
               required: "Post content is required",
             })}
           />

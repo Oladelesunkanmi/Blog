@@ -49,27 +49,32 @@ function Home() {
 
 
       <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 gap-6 my-5">
-        {apiData.map((record) => (
+        {apiData.map((apiData) => (
           <div
-            key={record.ID}
+            key={apiData.ID}
             className="p-4 border border-gray-300 rounded-md shadow-sm"
           >
             <div className="text-lg font-semibold mb-1">
-              <Link to={`/blog/${record.ID}`}>
-                {record.Title}
+              <Link to={`/blog/${apiData.ID}`}>
+                {apiData.Title}
               </Link>
             </div>
+             <img width="100" height="100"
+          src={`${import.meta.env.VITE_API_ROOT}/${apiData?.Image.replace(/^\.?\//, "")}`}
+          alt={apiData?.Title}
+          onError={(e) => { e.currentTarget.src = "/placeholder.jpg"; }}
+        />
             <div className="flex">
-            <Link to={`edit/${record.ID}`}>
+            <Link to={`edit/${apiData.ID}`}>
               <FaPen className="text-blue-500 cursor-pointer" />
             </Link>
 
-            <Link to={`delete/${record.ID}`}>
+            <Link to={`delete/${apiData.ID}`}>
               <FaTrash className="text-red-500 cursor-pointer" />
             </Link>
             </div>
             <div className="text-gray-700">
-              {record.Post}
+              {apiData.Post}
             </div>
           </div>
 
